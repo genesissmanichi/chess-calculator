@@ -274,11 +274,8 @@
         function initEngine() {
             if (engineWorker) return;
             
-            const blob = new Blob([
-                "importScripts('https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js');"
-            ], {type: 'application/javascript'});
-            
-            engineWorker = new Worker(URL.createObjectURL(blob));
+            // Load the locally uploaded Stockfish 18 file
+            engineWorker = new Worker('stockfish-18-asm.js');
             
             engineWorker.onmessage = function(event) {
                 const msg = event.data;
@@ -514,7 +511,7 @@
             isCalculating = true;
             $btnCalculate.addClass('hidden');
             $btnStop.removeClass('hidden');
-            $engineStatus.html('<div class="loader"></div> Calculating (Stockfish 10 WASM)...');
+            $engineStatus.html('<div class="loader"></div> Calculating (Stockfish 18)...');
             
             const thinkSeconds = parseFloat($('#thinkTime').val()) || 5;
             const searchDepth = parseInt($('#searchDepth').val()) || 18;
