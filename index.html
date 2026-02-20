@@ -176,9 +176,15 @@
                     <h3 class="text-base sm:text-lg font-bold mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-sliders text-slate-400 mr-2"></i>Engine Settings</h3>
                     
                     <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-1">Time to Think (seconds)</label>
-                            <input type="number" id="thinkTime" min="1" max="60" value="3" class="w-full bg-slate-900 border border-slate-600 rounded px-3 py-3 sm:py-2 text-white focus:outline-none focus:border-blue-500">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-1">Time to Think (s)</label>
+                                <input type="number" id="thinkTime" min="1" max="60" value="5" class="w-full bg-slate-900 border border-slate-600 rounded px-3 py-3 sm:py-2 text-white focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-1">Search Depth</label>
+                                <input type="number" id="searchDepth" min="5" max="30" value="18" class="w-full bg-slate-900 border border-slate-600 rounded px-3 py-3 sm:py-2 text-white focus:outline-none focus:border-blue-500">
+                            </div>
                         </div>
                         
                         <div>
@@ -339,6 +345,9 @@
             };
 
             engineWorker.postMessage('uci');
+            // Maximize engine power by increasing RAM allocated to hash tables (128MB) and forcing maximum skill
+            engineWorker.postMessage('setoption name Hash value 128');
+            engineWorker.postMessage('setoption name Skill Level value 20');
             engineWorker.postMessage('isready');
         }
 
@@ -507,10 +516,14 @@
             $btnStop.removeClass('hidden');
             $engineStatus.html('<div class="loader"></div> Calculating (Stockfish 10 WASM)...');
             
-            const thinkSeconds = parseFloat($('#thinkTime').val()) || 3;
+            const thinkSeconds = parseFloat($('#thinkTime').val()) || 5;
+            const searchDepth = parseInt($('#searchDepth').val()) || 18;
             
             engineWorker.postMessage('position fen ' + game.fen());
-            engineWorker.postMessage('go movetime ' + (thinkSeconds * 1000));
+            
+            // Send both depth limits and time limits. This restricts the engine from hanging on shallow lines 
+            // but also ensures it searches deep enough if it evaluates fast.
+            engineWorker.postMessage('go depth ' + searchDepth + ' movetime ' + (thinkSeconds * 1000));
         }
 
         function setupEventListeners() {
@@ -568,7 +581,7 @@
                 $engineStatus.html('<i class="fa-solid fa-stop text-red-500 mr-1"></i> Calculation stopped.');
             });
 
-            $('#autoCalcSide, #autoPlaySide, #thinkTime').on('change', () => {
+            $('#autoCalcSide, #autoPlaySide, #thinkTime, #searchDepth').on('change', () => {
                 if (!isCalculating) checkAutoActions();
             });
 
