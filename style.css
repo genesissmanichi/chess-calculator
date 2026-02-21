@@ -66,6 +66,9 @@ body {
 .highlight-best-to {
   background-color: rgba(37, 99, 235, 0.7) !important;
 }
+.highlight-last {
+  background-color: rgba(234, 179, 8, 0.6) !important;
+} /* Yellow for last move */
 
 /* Loader animation */
 .loader {

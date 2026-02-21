@@ -19,8 +19,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
     <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="min-h-screen flex flex-col p-4 md:p-8">
 
@@ -161,8 +162,17 @@
                                     <option value="b">Black</option>
                                 </select>
                             </div>
-                            <div class="flex-1 flex flex-col justify-center">
-                                <label class="text-sm font-medium text-slate-300 mb-2 sm:mb-1">Enforce Chess Rules</label>
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium text-slate-300 mb-1">Promote Pawns To</label>
+                                <select id="promoteSelect" class="w-full bg-slate-900 border border-slate-600 rounded px-3 py-3 sm:py-2 text-sm font-bold text-white focus:outline-none focus:border-blue-500 appearance-none">
+                                    <option value="q">Queen</option>
+                                    <option value="n">Knight</option>
+                                    <option value="r">Rook</option>
+                                    <option value="b">Bishop</option>
+                                </select>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-center items-start">
+                                <label class="text-sm font-medium text-slate-300 mb-2 sm:mb-1">Enforce Rules</label>
                                 <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
                                     <input type="checkbox" name="enforceRules" id="enforceRules" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-slate-400 focus:outline-none z-10" checked/>
                                     <label for="enforceRules" class="toggle-label block overflow-hidden h-5 rounded-full bg-slate-400 cursor-pointer"></label>
@@ -215,10 +225,12 @@
         </div>
     </main>
 
-     <footer class="mt-8 text-center text-slate-500 text-xs sm:text-sm py-6 border-t border-slate-800 max-w-7xl mx-auto w-full">
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-slate-500 text-xs sm:text-sm py-6 border-t border-slate-800 max-w-7xl mx-auto w-full">
         <p>&copy; 2026 Next Chess Best Move Calculator. Built by <a href="https://github.com/Xorizn" target="_blank" class="text-blue-400 hover:underline">Xorizn</a>.</p>
         <p class="mt-1">Powered by <a href="https://stockfishchess.org/" target="_blank" class="text-blue-400 hover:underline">Stockfish</a>, <a href="https://github.com/jhlywa/chess.js" target="_blank" class="text-blue-400 hover:underline">chess.js</a>, and <a href="https://chessboardjs.com/" target="_blank" class="text-blue-400 hover:underline">chessboard.js</a>.</p>
     </footer>
+
     <!-- App Logic -->
     <script src="script.js"></script>
 </body>
