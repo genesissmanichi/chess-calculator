@@ -19,77 +19,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
     <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
-    <style>
-        body {
-            background-color: #0f172a; /* slate-900 */
-            color: #f8fafc; /* slate-50 */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
-        }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
-
-        /* Chessboard custom styling & Mobile Touch Fixes */
-        #board, .spare-pieces-7492f {
-            touch-action: none; /* Prevents page scroll when dragging pieces on mobile */
-            -webkit-user-select: none; /* Prevents text selection on long press */
-            user-select: none;
-        }
-
-        .board-b72b1 {
-            border: 4px solid #334155;
-            border-radius: 4px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-            width: 100% !important; /* Force responsive width */
-        }
-        .white-1e1d7 { background-color: #e2e8f0; color: #475569; }
-        .black-3c85d { background-color: #64748b; color: #e2e8f0; }
-
-        /* Highlight squares */
-        .highlight-white { background-color: rgba(52, 211, 153, 0.6) !important; }
-        .highlight-black { background-color: rgba(16, 185, 129, 0.6) !important; }
-        .highlight-best-from { background-color: rgba(59, 130, 246, 0.6) !important; }
-        .highlight-best-to { background-color: rgba(37, 99, 235, 0.7) !important; }
-
-        /* Loader animation */
-        .loader {
-            border: 3px solid #334155;
-            border-top: 3px solid #3b82f6;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .toggle-checkbox:checked { right: 0; border-color: #3b82f6; }
-        .toggle-checkbox:checked + .toggle-label { background-color: #3b82f6; }
-        
-        /* Adjust spare pieces for mobile screens */
-        .spare-pieces-7492f { 
-            margin: 10px 0; 
-            display: flex; 
-            justify-content: center; 
-            flex-wrap: wrap; /* Allows pieces to wrap on small screens */
-            gap: 4px;
-            background: #1e293b; 
-            padding: 10px; 
-            border-radius: 4px; 
-            border: 1px solid #334155;
-        }
-    </style>
 </head>
 <body class="min-h-screen flex flex-col p-4 md:p-8">
 
@@ -187,6 +118,14 @@
                             </div>
                         </div>
                         
+                        <div class="flex items-center justify-between">
+                            <label class="text-sm font-medium text-slate-300">Sound Effects</label>
+                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="soundToggle" id="soundToggle" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-slate-400 focus:outline-none z-10" checked/>
+                                <label for="soundToggle" class="toggle-label block overflow-hidden h-5 rounded-full bg-slate-400 cursor-pointer"></label>
+                            </div>
+                        </div>
+
                         <div>
                             <label class="block text-sm font-medium text-slate-300 mb-1">Auto Calculate Position</label>
                             <select id="autoCalcSide" class="w-full bg-slate-900 border border-slate-600 rounded px-3 py-3 sm:py-2 text-sm text-white focus:outline-none focus:border-blue-500 appearance-none">
@@ -247,353 +186,40 @@
                     </div>
                 </div>
 
+                <!-- Appearance Settings -->
+                <div class="bg-slate-800 rounded-xl p-4 sm:p-5 border border-slate-700 shadow-lg md:col-span-2">
+                    <h3 class="text-base sm:text-lg font-bold mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-palette text-slate-400 mr-2"></i>Appearance</h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-1">Board Theme</label>
+                            <select id="boardTheme" class="w-full bg-slate-900 border border-slate-600 rounded px-3 py-3 sm:py-2 text-sm text-white focus:outline-none focus:border-blue-500 appearance-none">
+                                <option value="slate">Slate (Default)</option>
+                                <option value="green">Chess.com Green</option>
+                                <option value="wood">Wood</option>
+                                <option value="blue">Ocean Blue</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-1">Piece Skin</label>
+                            <select id="pieceSkin" class="w-full bg-slate-900 border border-slate-600 rounded px-3 py-3 sm:py-2 text-sm text-white focus:outline-none focus:border-blue-500 appearance-none">
+                                <option value="wikipedia">Wikipedia</option>
+                                <option value="alpha">Alpha</option>
+                                <option value="uscf">USCF</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
 
+     <footer class="mt-8 text-center text-slate-500 text-xs sm:text-sm py-6 border-t border-slate-800 max-w-7xl mx-auto w-full">
+        <p>&copy; 2026 Next Chess Best Move Calculator. Built by <a href="https://github.com/Xorizn" target="_blank" class="text-blue-400 hover:underline">Xorizn</a>.</p>
+        <p class="mt-1">Powered by <a href="https://stockfishchess.org/" target="_blank" class="text-blue-400 hover:underline">Stockfish</a>, <a href="https://github.com/jhlywa/chess.js" target="_blank" class="text-blue-400 hover:underline">chess.js</a>, and <a href="https://chessboardjs.com/" target="_blank" class="text-blue-400 hover:underline">chessboard.js</a>.</p>
+    </footer>
     <!-- App Logic -->
-    <script>
-        // --- GLOBALS & UI ELEMENTS ---
-        let board = null;
-        let game = new Chess();
-        let engineWorker = null;
-        let isCalculating = false;
-
-        const $status = $('#gameStatus');
-        const $fenInput = $('#fenInput');
-        const $engineStatus = $('#engineStatus');
-        const $evalScore = $('#evalScore');
-        const $evalDepth = $('#evalDepth');
-        const $evalBestMove = $('#evalBestMove');
-        const $evalPV = $('#evalPV');
-        const $btnCalculate = $('#btnCalculate');
-        const $btnStop = $('#btnStop');
-        const $turnSelect = $('#turnSelect');
-
-        // --- STOCKFISH ENGINE INTEGRATION ---
-        function initEngine() {
-            if (engineWorker) return;
-            
-            // Load the locally uploaded Stockfish 18 file
-            engineWorker = new Worker('stockfish-18-asm.js');
-            
-            engineWorker.onmessage = function(event) {
-                const msg = event.data;
-                if (typeof msg !== 'string') return;
-
-                if (msg.startsWith('info depth')) {
-                    const depthMatch = msg.match(/depth (\d+)/);
-                    const cpMatch = msg.match(/score cp (-?\d+)/);
-                    const mateMatch = msg.match(/score mate (-?\d+)/);
-                    const pvMatch = msg.match(/ pv (.*)/);
-
-                    if (depthMatch) $evalDepth.text(depthMatch[1]);
-                    
-                    if (cpMatch) {
-                        let score = parseInt(cpMatch[1]);
-                        if (game.turn() === 'b') score = -score;
-                        const val = (score / 100).toFixed(2);
-                        $evalScore.text(val > 0 ? '+' + val : val);
-                    } else if (mateMatch) {
-                        let mateIn = parseInt(mateMatch[1]);
-                        let mateText = mateIn > 0 ? '+M' + mateIn : '-M' + Math.abs(mateIn);
-                        if (game.turn() === 'b') {
-                            mateText = mateIn > 0 ? '-M' + mateIn : '+M' + Math.abs(mateIn);
-                        }
-                        $evalScore.text(mateText);
-                    }
-
-                    if (pvMatch) {
-                        $evalPV.text(pvMatch[1]);
-                        const bestMoveUCI = pvMatch[1].split(' ')[0];
-                        $evalBestMove.text(bestMoveUCI);
-                        
-                        const from = bestMoveUCI.substring(0, 2);
-                        const to = bestMoveUCI.substring(2, 4);
-                        highlightBestMove({from, to});
-                    }
-                }
-
-                if (msg.startsWith('bestmove')) {
-                    isCalculating = false;
-                    $engineStatus.html('<i class="fa-solid fa-check text-green-500 mr-1"></i> Calculation complete.');
-                    $btnCalculate.removeClass('hidden');
-                    $btnStop.addClass('hidden');
-
-                    const moveMatch = msg.match(/bestmove ([a-h][1-8][a-h][1-8][qrbn]?)/);
-                    if (moveMatch) {
-                        const uciMove = moveMatch[1];
-                        const from = uciMove.substring(0, 2);
-                        const to = uciMove.substring(2, 4);
-                        const promotion = uciMove.length === 5 ? uciMove[4] : undefined;
-                        
-                        const turn = game.turn();
-                        const autoPlay = $('#autoPlaySide').val();
-                        
-                        if (autoPlay === 'both' || autoPlay === turn) {
-                            game.move({ from, to, promotion });
-                            board.position(game.fen());
-                            updateStatus();
-                            removeHighlights();
-                            setTimeout(checkAutoActions, 200);
-                        }
-                    }
-                }
-            };
-
-            engineWorker.postMessage('uci');
-            // Maximize engine power by increasing RAM allocated to hash tables (128MB) and forcing maximum skill
-            engineWorker.postMessage('setoption name Hash value 128');
-            engineWorker.postMessage('setoption name Skill Level value 20');
-            engineWorker.postMessage('isready');
-        }
-
-        // Initialize App
-        function init() {
-            initEngine();
-            board = Chessboard('board', {
-                draggable: true,
-                position: 'start',
-                dropOffBoard: 'trash',
-                sparePieces: true,
-                onDragStart: onDragStart,
-                onDrop: onDrop,
-                onSnapEnd: onSnapEnd,
-                pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
-            });
-            
-            // Initial forced resize to ensure proper render on mobile
-            setTimeout(() => { if(board) board.resize(); }, 100);
-            
-            updateStatus();
-            setupEventListeners();
-        }
-
-        // Board Event Handlers
-        function onDragStart(source, piece, position, orientation) {
-            return true;
-        }
-
-        function onDrop(source, target, piece, newPos, oldPos, orientation) {
-            removeHighlights();
-
-            if (target === 'offboard') {
-                game.remove(source);
-                syncGameAfterEdit();
-                return;
-            }
-
-            if (source === 'spare') {
-                const pColor = piece[0];
-                const pType = piece[1].toLowerCase();
-                const success = game.put({ type: pType, color: pColor }, target);
-                if (!success) return 'snapback';
-                syncGameAfterEdit();
-                return;
-            }
-
-            let move = game.move({ from: source, to: target, promotion: 'q' });
-
-            if (move === null) {
-                if (!$('#enforceRules').is(':checked')) {
-                    const p = game.remove(source);
-                    if (p) {
-                        const success = game.put(p, target);
-                        if (!success) {
-                            game.put(p, source);
-                            return 'snapback';
-                        }
-                        syncGameAfterEdit();
-                        return;
-                    }
-                } else {
-                    return 'snapback';
-                }
-            }
-
-            updateStatus();
-            checkAutoActions();
-        }
-
-        function syncGameAfterEdit() {
-            const currentFen = game.fen();
-            const tempGame = new Chess();
-            if (tempGame.load(currentFen)) {
-                game.load(currentFen);
-            }
-            updateStatus();
-            checkAutoActions();
-        }
-
-        function onSnapEnd() {
-            board.position(game.fen());
-        }
-
-        function updateStatus() {
-            let status = '';
-            let moveColor = game.turn() === 'w' ? 'White' : 'Black';
-
-            try {
-                if (game.in_checkmate()) {
-                    status = `Game over, ${moveColor} is in checkmate.`;
-                } else if (game.in_draw()) {
-                    status = 'Game over, drawn position';
-                } else {
-                    status = `${moveColor} to move`;
-                    if (game.in_check()) status += ', ' + moveColor + ' is in check';
-                }
-            } catch (error) {
-                status = `Edit Mode: ${moveColor} to move (Invalid State)`;
-            }
-
-            $status.html(status);
-            $fenInput.val(game.fen());
-            $turnSelect.val(game.turn());
-        }
-
-        function checkAutoActions() {
-            const turn = game.turn();
-            const autoCalc = $('#autoCalcSide').val();
-            const autoPlay = $('#autoPlaySide').val();
-
-            let shouldCalculate = false;
-            if (autoCalc === 'both' || autoCalc === turn) shouldCalculate = true;
-            if (autoPlay === 'both' || autoPlay === turn) shouldCalculate = true;
-
-            let isGameOver = true;
-            try { isGameOver = game.game_over(); } catch(e) {}
-
-            if (shouldCalculate && !isGameOver) {
-                setTimeout(() => { if (!isCalculating) startEngineCalculation(); }, 200);
-            } else {
-                resetEngineUI();
-            }
-        }
-
-        function removeHighlights() {
-            $('#board .square-55d63').removeClass('highlight-white highlight-black highlight-best-from highlight-best-to');
-        }
-
-        function highlightBestMove(move) {
-            removeHighlights();
-            if(!move) return;
-            $('#board .square-' + move.from).addClass('highlight-best-from');
-            $('#board .square-' + move.to).addClass('highlight-best-to');
-        }
-
-        function resetEngineUI() {
-            $engineStatus.html("Idle. Click 'Calculate' or make a move.");
-            $evalScore.text('-');
-            $evalDepth.text('-');
-            $evalBestMove.text('-');
-            $evalPV.text('-');
-            removeHighlights();
-            stopEngine();
-        }
-
-        function stopEngine() {
-            if (engineWorker && isCalculating) {
-                engineWorker.postMessage('stop');
-            }
-            isCalculating = false;
-            $btnCalculate.removeClass('hidden');
-            $btnStop.addClass('hidden');
-        }
-
-        function startEngineCalculation() {
-            let isGameOver = true;
-            try { isGameOver = game.game_over(); } catch(e) {}
-            if (isGameOver) return;
-
-            initEngine();
-
-            stopEngine(); 
-            isCalculating = true;
-            $btnCalculate.addClass('hidden');
-            $btnStop.removeClass('hidden');
-            $engineStatus.html('<div class="loader"></div> Calculating (Stockfish 18)...');
-            
-            const thinkSeconds = parseFloat($('#thinkTime').val()) || 5;
-            const searchDepth = parseInt($('#searchDepth').val()) || 18;
-            
-            engineWorker.postMessage('position fen ' + game.fen());
-            
-            // Send both depth limits and time limits. This restricts the engine from hanging on shallow lines 
-            // but also ensures it searches deep enough if it evaluates fast.
-            engineWorker.postMessage('go depth ' + searchDepth + ' movetime ' + (thinkSeconds * 1000));
-        }
-
-        function setupEventListeners() {
-            $('#turnSelect').on('change', function() {
-                const currentFen = game.fen();
-                const parts = currentFen.split(' ');
-                parts[1] = $(this).val();
-                parts[3] = '-';
-                parts[4] = '0';
-                
-                if (game.load(parts.join(' '))) {
-                    updateStatus();
-                    checkAutoActions();
-                } else {
-                    $turnSelect.val(game.turn());
-                    alert("Cannot change turn while the board is in an invalid state.");
-                }
-            });
-
-            $('#btnStart').on('click', () => {
-                game.reset();
-                board.position(game.fen());
-                updateStatus();
-                resetEngineUI();
-                checkAutoActions();
-            });
-
-            $('#btnClear').on('click', () => {
-                game.clear();
-                board.clear();
-                updateStatus();
-                resetEngineUI();
-            });
-
-            $('#btnFlip').on('click', () => {
-                board.flip();
-            });
-
-            $('#btnSetFen').on('click', () => {
-                const fen = $('#customFen').val().trim();
-                if (game.load(fen)) {
-                    board.position(fen);
-                    $('#fenError').addClass('hidden');
-                    updateStatus();
-                    resetEngineUI();
-                    checkAutoActions();
-                } else {
-                    $('#fenError').removeClass('hidden');
-                }
-            });
-
-            $btnCalculate.on('click', startEngineCalculation);
-            $btnStop.on('click', () => {
-                stopEngine();
-                $engineStatus.html('<i class="fa-solid fa-stop text-red-500 mr-1"></i> Calculation stopped.');
-            });
-
-            $('#autoCalcSide, #autoPlaySide, #thinkTime, #searchDepth').on('change', () => {
-                if (!isCalculating) checkAutoActions();
-            });
-
-            // Handle mobile orientation changes properly
-            $(window).on('resize orientationchange', () => {
-                if(board) {
-                    setTimeout(() => {
-                        board.resize();
-                    }, 150); // Small delay to let browser finish rotation geometry
-                }
-            });
-        }
-
-        $(document).ready(init);
-
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
